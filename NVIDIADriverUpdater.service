@@ -1,0 +1,12 @@
+[Unit]
+Description=NVIDIADriverUpdater Service
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/NVIDIADriverUpdater/
+ExecStart=/usr/bin/python3 /home/pi/NVIDIADriverUpdater/NVIDIADriverUpdater.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
