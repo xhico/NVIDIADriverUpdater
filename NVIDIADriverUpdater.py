@@ -116,6 +116,9 @@ def main():
     urllib.request.urlretrieve(downloadHREF, local_path)
     logger.info(f"Finished Downloading")
 
+    # Send Email
+    sendEmail("NVIDIA Driver Update", f"Version {version}\nRelease Date: {releaseDate}")
+
     # Set new version
     SAVED_INFO["version"] = version
 
