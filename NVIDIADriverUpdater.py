@@ -98,7 +98,8 @@ def main():
     # Get latest version / release Date
     version = browser.find_element(By.ID, "tdVersion").text
     releaseDate = browser.find_element(By.ID, "tdReleaseDate").text
-    logger.info(f"Version - {version} | Release Date - {releaseDate}")
+    logger.info(f"Version - {version}")
+    logger.info(f"Release Date - {releaseDate}")
 
     # Check for newer version
     if version == SAVED_INFO["version"]:
@@ -110,10 +111,10 @@ def main():
 
     # Download driver
     downloadHREF = browser.find_element(By.CSS_SELECTOR, "#mainContent > table > tbody > tr > td > a").get_attribute("href")
-    logger.info(f"Downloading {downloadHREF}")
+    logger.info(f"Downloading...")
     local_path = os.path.join(DRIVERS_FOLDER, os.path.basename(urllib.parse.urlparse(downloadHREF).path))
     urllib.request.urlretrieve(downloadHREF, local_path)
-    logger.info(f"Downloaded to local file {local_path}")
+    logger.info(f"Finished Downloading")
 
     # Set new version
     SAVED_INFO["version"] = version
@@ -154,7 +155,7 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        # sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
+        sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         browser.close()
         logger.info("Close")
