@@ -12,6 +12,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from Misc import get911, sendEmail
 
 
@@ -96,7 +98,7 @@ def main():
     browser.find_element(By.CSS_SELECTOR, "#ManualSearchButtonTD > a > btn_drvr_lnk_txt").click()
 
     # Get latest version / release Date
-    version = browser.find_element(By.ID, "tdVersion").text
+    version = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "tdReleaseDate"))).text
     releaseDate = browser.find_element(By.ID, "tdReleaseDate").text
     logger.info(f"Version - {version}")
     logger.info(f"Release Date - {releaseDate}")
