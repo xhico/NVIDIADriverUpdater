@@ -100,9 +100,9 @@ def main():
     # Get latest version / release Date
     version = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "tdVersion"))).text
     releaseDate = browser.find_element(By.ID, "tdReleaseDate").text
+    logger.info(f"Saved Version - {SAVED_INFO['version']}")
     logger.info(f"Version - {version}")
     logger.info(f"Release Date - {releaseDate}")
-    logger.info(f"Saved Version - {SAVED_INFO['version']}")
 
     # Check for newer version
     if version == SAVED_INFO["version"]:
