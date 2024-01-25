@@ -98,10 +98,11 @@ def main():
     browser.find_element(By.CSS_SELECTOR, "#ManualSearchButtonTD > a > btn_drvr_lnk_txt").click()
 
     # Get latest version / release Date
-    version = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "tdReleaseDate"))).text
+    version = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "tdVersion"))).text
     releaseDate = browser.find_element(By.ID, "tdReleaseDate").text
     logger.info(f"Version - {version}")
     logger.info(f"Release Date - {releaseDate}")
+    logger.info(f"Saved Version - {SAVED_INFO['version']}")
 
     # Check for newer version
     if version == SAVED_INFO["version"]:
@@ -113,16 +114,14 @@ def main():
 
     # Download driver
     downloadHREF = browser.find_element(By.CSS_SELECTOR, "#mainContent > table > tbody > tr > td > a").get_attribute("href")
-    logger.info(f"Downloading...")
-    local_path = os.path.join(DRIVERS_FOLDER, os.path.basename(urllib.parse.urlparse(downloadHREF).path))
-    urllib.request.urlretrieve(downloadHREF, local_path)
-    logger.info(f"Finished Downloading")
+    logger.info(f"New version - {downloadHREF}")
 
     # Send Email
     sendEmail("NVIDIA Driver Update", f"Version {version}\nRelease Date: {releaseDate}")
 
     # Set new version
     SAVED_INFO["version"] = version
+    SAVED_INFO["link"] = downloadHREF
 
     # Save SAVED_INFO
     with open(SAVED_INFO_FILE, 'w') as outFile:
@@ -144,10 +143,6 @@ if __name__ == '__main__':
             json.dump({"version": "0.0"}, outFile, indent=2)
     with open(SAVED_INFO_FILE) as inFile:
         SAVED_INFO = json.load(inFile)
-
-    # Check if downloads folder exits
-    DRIVERS_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DRIVERS")
-    os.makedirs(DRIVERS_FOLDER, exist_ok=True)
 
     # Create Selenium
     logger.info("Launch Browser")
