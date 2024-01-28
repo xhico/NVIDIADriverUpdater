@@ -5,8 +5,6 @@ import os
 import json
 import logging
 import traceback
-import urllib.request
-import urllib.parse
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
