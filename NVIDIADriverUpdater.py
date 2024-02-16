@@ -122,7 +122,7 @@ def main():
     SAVED_INFO["version"] = version
 
     # Save SAVED_INFO
-    with open(SAVED_INFO_FILE, 'w') as outFile:
+    with open(SAVED_INFO_FILE, "w") as outFile:
         json.dump(SAVED_INFO, outFile, indent=2)
 
 
