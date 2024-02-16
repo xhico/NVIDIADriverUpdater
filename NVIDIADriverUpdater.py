@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python3
 
-import os
 import json
 import logging
+import os
 import traceback
+
+from Misc import sendEmail
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from Misc import get911, sendEmail
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 def setSelector(selectorElemId, value):
@@ -99,7 +100,7 @@ def main():
     version = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "tdVersion"))).text
     releaseDate = browser.find_element(By.ID, "tdReleaseDate").text
     logger.info(f"Saved Version - {SAVED_INFO['version']}")
-    logger.info(f"Version - {version}")
+    logger.info(f"Live Version - {version}")
     logger.info(f"Release Date - {releaseDate}")
 
     # Check for newer version
@@ -112,14 +113,13 @@ def main():
 
     # Download driver
     downloadHREF = browser.find_element(By.CSS_SELECTOR, "#mainContent > table > tbody > tr > td > a").get_attribute("href")
-    logger.info(f"New version - {downloadHREF}")
+    logger.info(f"Downloads - {downloadHREF}")
 
     # Send Email
-    sendEmail("NVIDIA Driver Update", f"Version {version}\nRelease Date: {releaseDate}")
+    sendEmail("NVIDIA Driver Update", f"Version: {version}\nRelease Date: {releaseDate}\nDownload: {downloadHREF}")
 
     # Set new version
     SAVED_INFO["version"] = version
-    SAVED_INFO["link"] = downloadHREF
 
     # Save SAVED_INFO
     with open(SAVED_INFO_FILE, 'w') as outFile:
