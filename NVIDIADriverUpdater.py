@@ -122,6 +122,7 @@ def main():
 
     # Set new version
     SAVED_INFO["version"] = version
+    SAVED_INFO["releaseDate"] = releaseDate
 
     # Save SAVED_INFO
     with open(SAVED_INFO_FILE, "w") as outFile:
