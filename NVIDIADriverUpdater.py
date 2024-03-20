@@ -114,7 +114,7 @@ def main():
     browser.find_element(By.CSS_SELECTOR, "#lnkDwnldBtn > btn_drvr_lnk_txt").click()
 
     # Download driver
-    downloadHREF = browser.find_element(By.CSS_SELECTOR, "#mainContent > table > tbody > tr > td > a").get_attribute("href")
+    downloadHREF = browser.find_element(By.CSS_SELECTOR, "#dnldBttns > table > tbody > tr > td:nth-child(1) > a").get_attribute("href")
     logger.info(f"Downloads - {downloadHREF}")
 
     # Send Email
