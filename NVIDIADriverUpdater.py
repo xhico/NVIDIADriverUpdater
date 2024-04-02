@@ -151,7 +151,7 @@ if __name__ == '__main__':
     Options.add_argument("-headless")
     Options.binary_location = "/usr/bin/brave-browser"
     Service = Service("/usr/bin/chromedriver")
-    browser = webdriver.Firefox(options=Options, service=Service)
+    browser = webdriver.Chrome(options=Options, service=Service)
 
     try:
         main()
