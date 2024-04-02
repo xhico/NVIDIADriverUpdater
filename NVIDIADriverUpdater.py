@@ -8,9 +8,9 @@ import traceback
 
 from Misc import sendEmail
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
@@ -147,10 +147,11 @@ if __name__ == '__main__':
 
     # Create Selenium
     logger.info("Launch Browser")
-    options = Options()
-    options.add_argument('-headless')
-    service = Service("/home/pi/geckodriver", log_output="/home/pi/geckodriver.log")
-    browser = webdriver.Firefox(service=service, options=options)
+    Options = Options()
+    Options.add_argument("-headless")
+    Options.binary_location = "/usr/bin/brave-browser"
+    Service = Service("/usr/bin/chromedriver")
+    browser = webdriver.Firefox(options=Options, service=Service)
 
     try:
         main()
