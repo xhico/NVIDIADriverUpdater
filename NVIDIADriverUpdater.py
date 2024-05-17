@@ -149,7 +149,7 @@ if __name__ == '__main__':
     logger.info("Launch Browser")
     Options = Options()
     Options.add_argument("-headless")
-    Options.binary_location = "/usr/bin/brave-browser"
+    Options.binary_location = "/usr/bin/chromium-browser"
     Service = Service("/usr/bin/chromedriver")
     browser = webdriver.Chrome(options=Options, service=Service)
 
