@@ -6,7 +6,7 @@ import logging
 import os
 import traceback
 
-from Misc import sendEmail
+import Misc
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -111,14 +111,14 @@ def main():
     logger.warning("Found new Driver")
 
     # Goto Download Page
-    browser.find_element(By.CSS_SELECTOR, "#lnkDwnldBtn > btn_drvr_lnk_txt").click()
+    browser.find_element(By.TAG_NAME, "btn_drvr_lnk_txt").click()
 
     # Download driver
-    downloadHREF = browser.find_element(By.CSS_SELECTOR, "#dnldBttns > table > tbody > tr > td:nth-child(1) > a").get_attribute("href")
-    logger.info(f"Downloads - {downloadHREF}")
+    downloadHREF = browser.find_element(By.TAG_NAME, "btn_drvr_lnk_txt").find_element(By.XPATH, "..").get_attribute("href")
+    logger.info(f"Download - {downloadHREF}")
 
     # Send Email
-    sendEmail("NVIDIA Driver Update", f"Version: {version}\nRelease Date: {releaseDate}\nDownload: {downloadHREF}")
+    Misc.sendEmail("NVIDIA Driver Update", f"Version: {version}\nRelease Date: {releaseDate}\nDownload: {downloadHREF}")
 
     # Set new version
     SAVED_INFO["version"] = version
@@ -157,7 +157,7 @@ if __name__ == '__main__':
         main()
     except Exception as ex:
         logger.error(traceback.format_exc())
-        sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
+        Misc.sendEmail(os.path.basename(__file__), str(traceback.format_exc()))
     finally:
         browser.close()
         logger.info("Close")
